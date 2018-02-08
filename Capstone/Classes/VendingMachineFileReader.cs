@@ -21,10 +21,10 @@ namespace Capstone.Classes
         {
             Dictionary<string, List<Product>> inventory = new Dictionary<string, List<Product>>();
 
-            foreach (var kvp in inventory)
-            {
-                string[] slots = inventory.Key;
-            }
+            //foreach (var kvp in inventory)
+            //{
+            //    string[] slots = inventory.Key;
+            //}
 
             try
             {

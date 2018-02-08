@@ -8,34 +8,30 @@ namespace Capstone.Classes
 {
     public class Change
     {
-        public int Nickels { get; }
+        public int Nickels { get; private set; }
 
-        public int Dimes { get; }
+        public int Dimes { get; private set; }
 
-        public int Quarters { get; }
+        public int Quarters { get; private set; }
 
         public decimal Total { get; }
 
-        public Change result (decimal total)
+        public Change(decimal total)
         {
-          
+            this.Total = total;
+
+            decimal changeTotal = this.Total;
+
+            Quarters = (int)(changeTotal / 0.25M);
+            changeTotal -= Quarters * 0.25M;
+
+            Dimes = (int)(changeTotal / 0.10M);
+            changeTotal -= Dimes * 0.10M;
+
+            Nickels = (int)(changeTotal / 0.05M);
+            changeTotal -= Nickels * 0.05M;
         }
-        public string GetChange(decimal total)
-        {
-            string result = "";
 
-        Quarters = total / 25;
-            int remainder = total % 25;
-
-        Dimes = remainder / 10;
-            remainder = remainder % 10;
-
-            Nickels = remainder / 5;
-
-            result = ($"{Quarters} Quarters, {Dimes} Dimes, {Nickels} Nickels");
-
-            return result;
-        }
-        
+               
     }
 }
