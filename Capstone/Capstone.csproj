@@ -51,13 +51,14 @@
     <Compile Include="Classes\IBeverageItem.cs" />
     <Compile Include="Classes\Product.cs" />
     <Compile Include="Classes\VendingMachine.cs" />
+    <Compile Include="Classes\VendingMachineCLI.cs" />
     <Compile Include="Classes\VendingMachineFileReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Classes\vendingmachine.csv">
+    <None Include="vendingmachine.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

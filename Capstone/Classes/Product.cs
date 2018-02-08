@@ -17,6 +17,7 @@ namespace Capstone.Classes
         public Product(string name, decimal price, string location)
         {
             this.Name = name;
+            this.Price = price;
         }
 
         public virtual void Consume()

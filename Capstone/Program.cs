@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capstone.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,13 @@ namespace Capstone
     {
         static void Main(string[] args)
         {
+            VendingMachineFileReader reader = new VendingMachineFileReader("vendingmachine.csv");
+            var inventory = reader.GetInventory();
+
+            VendingMachine vm = new VendingMachine(inventory);
+
+            VendingMachineCLI cli = new VendingMachineCLI(vm);
+            cli.Run();
         }
     }
 }

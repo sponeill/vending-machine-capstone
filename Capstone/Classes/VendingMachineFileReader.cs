@@ -9,6 +9,7 @@ namespace Capstone.Classes
 {
     public class VendingMachineFileReader
     {
+
         public string FilePath = "vendingmachine.csv";
 
         public VendingMachineFileReader(string filePath)
@@ -27,10 +28,9 @@ namespace Capstone.Classes
                     while(!sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
-                        Product p = productItem(line);
+                        List<Product> products = GetProducts(line);
                         string location = line.Split('|')[0];
-
-                        inventory.Add(location, )
+                        inventory.Add(location, products);
 
                     }
                 }
@@ -44,43 +44,54 @@ namespace Capstone.Classes
             }
             return inventory;
         }
-        private static Product productItem(string line)
+
+        List<Product> products = new List<Product>();
+
+        private static List<Product> GetProducts(string line)
         {
-            Product productItem;
+            
+
+            List<Product> products = new List<Product>();
 
             string[] fields = line.Split('|');
 
-            
+            string location = fields[0];
             string name = fields[1];
             decimal price = decimal.Parse(fields[2]);
 
             for(int i = 0; i < 5; i++)
             {
-                if (Location.StartsWith("A"))
+                Product productItem;
+
+                if (location.StartsWith("A"))
                 {
                     productItem = new ChipItem(name, price, location);
+                    products.Add(productItem);
+
                 }
                 else if (location.StartsWith("B"))
                 {
                     productItem = new CandyItem(name, price, location);
+                    products.Add(productItem);
                 }
                 else if (location.StartsWith("C"))
                 {
                     productItem = new BeverageItem(name, price, location);
+                    products.Add(productItem);
                 }
                 else if (location.StartsWith("D"))
                 {
                     productItem = new GumItem(name, price, location);
+                    products.Add(productItem);
                 }
+
+                
+
             }
-           
-
-            productItem.Location = fields[0];
-            productItem.Name = fields[1];
-            productItem.Price = fields[2];
 
 
-            return productItem;
+
+            return products;
         }
     }
 }
