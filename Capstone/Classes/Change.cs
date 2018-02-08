@@ -16,29 +16,26 @@ namespace Capstone.Classes
 
         public decimal Total { get; }
 
-        public Change(decimal total)
+        public Change result (decimal total)
         {
-
+          
         }
+        public string GetChange(decimal total)
+        {
+            string result = "";
 
-        Dictionary<int, string> change = new Dictionary<int, string>()
-            {
-                {5, "Nickel" }, {10, "Dime"}, {25, "Quarter"}
-            };
+        Quarters = total / 25;
+            int remainder = total % 25;
 
-        string result = "";
+        Dimes = remainder / 10;
+            remainder = remainder % 10;
 
-        int[] places = { 25, 10, 5 };
+            Nickels = remainder / 5;
 
-            foreach (int place in places)
-            {
-                result += change[place];
-                total -= place;
-            }
+            result = ($"{Quarters} Quarters, {Dimes} Dimes, {Nickels} Nickels");
 
-            if (total > 0)
-            {
-                result += change[total];
-            }
+            return result;
+        }
+        
     }
 }

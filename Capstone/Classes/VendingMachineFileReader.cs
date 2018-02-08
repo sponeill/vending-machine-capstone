@@ -21,6 +21,11 @@ namespace Capstone.Classes
         {
             Dictionary<string, List<Product>> inventory = new Dictionary<string, List<Product>>();
 
+            foreach (var kvp in inventory)
+            {
+                string[] slots = inventory.Key;
+            }
+
             try
             {
                 using (StreamReader sr = new StreamReader(FilePath))
@@ -44,6 +49,8 @@ namespace Capstone.Classes
             }
             return inventory;
         }
+
+        
 
         List<Product> products = new List<Product>();
 
@@ -93,5 +100,7 @@ namespace Capstone.Classes
 
             return products;
         }
+
+        
     }
 }

@@ -12,12 +12,14 @@ namespace Capstone.Classes
         public decimal Balance { get; private set; }
         private Dictionary<string, List<Product>> Inventory { get; }
 
-        public VendingMachine(Dictionary<string, List<Product>> inventory)
+        public VendingMachine(Dictionary<string, List<Product>> inventory, string[] slots)
         {
             this.Inventory = inventory;
+            this.Slots = slots;
         }
 
         public string[] Slots { get; }
+
 
         public void FeedMoney(int dollars)
         {
