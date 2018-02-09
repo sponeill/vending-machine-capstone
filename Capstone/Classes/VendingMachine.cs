@@ -18,7 +18,15 @@ namespace Capstone.Classes
             
         }
 
-       // public string[] Slots { get; }
+       public string[] Slots
+        {
+            get
+            {
+                Inventory.Keys.ToArray();
+                return Slots;
+            }
+        }
+
 
 
         public void FeedMoney(int dollars)
@@ -50,11 +58,19 @@ namespace Capstone.Classes
             return item;
         }
 
+        public int GetQuantityRemaining(string slot)
+        {
+            List<Product> items = Inventory[slot];
+
+            return items.Count;
+        }
+
 
         public Change ReturnChange()
         {
-
-            return new Change(Balance);
+            Change output = new Change(Balance);
+            Balance = 0;
+            return output;
          
         }
     }
