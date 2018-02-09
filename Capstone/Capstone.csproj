@@ -53,6 +53,7 @@
     <Compile Include="Classes\TransactionLogger.cs" />
     <Compile Include="Classes\VendingMachine.cs" />
     <Compile Include="Classes\VendingMachineCLI.cs" />
+    <Compile Include="Classes\VendingMachineExceptions.cs" />
     <Compile Include="Classes\VendingMachineFileReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

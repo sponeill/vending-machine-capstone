@@ -12,15 +12,17 @@ namespace Capstone.Classes
         public TransactionLogger log = new TransactionLogger("Log.txt", "SalesReport.txt");
 
         public decimal Balance { get; private set; }
-        private Dictionary<string, List<Product>> Inventory { get; }
+        public Dictionary<string, List<Product>> Inventory { get; }
+        private Dictionary<string, int> salesReport = new Dictionary<string, int>();
+        private decimal totalSales = 0;
 
         public VendingMachine(Dictionary<string, List<Product>> inventory)
         {
             this.Inventory = inventory;
-            
+
         }
 
-       public string[] Slots
+        public string[] Slots
         {
             get
             {
@@ -36,10 +38,10 @@ namespace Capstone.Classes
             Balance += dollars;
 
             log.RecordDeposit(dollars, Balance);
-            
+
         }
 
-        public Product Purchase(string slot)
+        public Product Purchase(string slot) 
         {
             List<Product> items = Inventory[slot];
             Product item = items[0];
@@ -56,12 +58,31 @@ namespace Capstone.Classes
                     Balance -= item.Price;
 
                     log.RecordPurchase(slot, item.Name, Balance + item.Price, Balance);
+
+                    totalSales += item.Price;
+
+                    if (salesReport.ContainsKey(item.Name))
+                    {
+                        salesReport[item.Name] = salesReport[item.Name] + 1;
+                    }
+                    else
+                    {
+                        salesReport.Add(item.Name, 1);
+                    }
+                }
+                else
+                {
+                    throw new VendingMachineExceptions("Insufficient funds.");
                 }
             }
-           
+            else
+            {
+                throw new VendingMachineExceptions("Out of stock!");
+            }
+
 
             // Returns the item to the user
-            
+
             return item;
         }
 
@@ -81,8 +102,8 @@ namespace Capstone.Classes
 
             return output;
 
-            
-         
+
+
         }
     }
 }

@@ -46,46 +46,52 @@ namespace Capstone.Classes
                 }
                 else if (userInput == 2)
                 {
+
                     Console.Clear();
-                    PurchasingMenuOptions();
 
-                    int userInput2 = Convert.ToInt32(Console.ReadLine());
 
-                    if (userInput2 == 1)
+                    while (true)
                     {
-                        Console.Clear();
-                        UserInputMoney();
+                        
+                        PurchasingMenuOptions();
 
-                    }
-                    else if (userInput2 == 2)
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Please enter the product slot number.");
-                        slot = Console.ReadLine();
+                        int userInput2 = Convert.ToInt32(Console.ReadLine());
 
-                        while(!vendingMachine.Slots.Contains(slot))
-                        {
-                            Console.WriteLine("Please refine your choice!");
-                            slot = Console.ReadLine();
-                        }
-                        if(vendingMachine.GetQuantityRemaining(slot) == 0)
-                        {
-                            Console.WriteLine("Sorry! You lose, try something else!");
-                            slot = Console.ReadLine();
-                        }
-                        else
+                        if (userInput2 == 1)
                         {
                             Console.Clear();
-                            vendingMachine.Purchase(slot);
+                            UserInputMoney();
+
                         }
-                    }
-                    else if(userInput2 == 3)
-                    {
-                        Console.Clear();
-                        vendingMachine.ReturnChange();
+                        else if (userInput2 == 2)
+                        {
+                            
+                            Console.WriteLine("Please enter the product slot number.");
+                            slot = Console.ReadLine();
 
-                        ConsumeMessages(slot);
+                           
+                            try
+                            {
+                                vendingMachine.Purchase(slot);
+                                
+                            }
+                            catch (VendingMachineExceptions ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
 
+
+                        }
+                        else if (userInput2 == 3)
+                        {
+                            Console.Clear();
+                            vendingMachine.ReturnChange();
+
+                            ConsumeMessages(slot);
+
+                            break;
+
+                        }
                     }
                 }
                 else if(userInput == 0)
@@ -136,9 +142,9 @@ namespace Capstone.Classes
 
         private void DisplayVendingMachine()
         {
-            foreach (string slot in vendingMachine.Slots)
+            foreach (var kvp in vendingMachine.Inventory)
             {
-                Console.WriteLine($"{slot} - <itemName> ");
+                Console.WriteLine(kvp.Key + " " + " - " + (kvp.Value.Count() != 0 ? kvp.Value[0].Name : "Sold-Out"));
             }
         }
     }
