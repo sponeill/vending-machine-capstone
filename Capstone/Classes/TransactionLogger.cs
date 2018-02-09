@@ -62,6 +62,7 @@ namespace Capstone.Classes
                         sw.WriteLine($"{kvp.Key} | {kvp.Value}");
                     }
 
+                    sw.WriteLine('\n');
                     sw.WriteLine($"Total Sales ${remainingBalance}");
                 }
             }

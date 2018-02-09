@@ -20,9 +20,9 @@ namespace Capstone.Classes
         public void Run()
         {
             
-
             Console.WriteLine("WELCOME TO VENDO MATIC");
             string slot = "";
+            List<string> selectionMemory = new List<string>();
 
             while (true)
             {
@@ -40,15 +40,12 @@ namespace Capstone.Classes
                 if (userInput == 1)
                 {
                     Console.Clear();
-                    DisplayVendingMachine();
-                   
+                    DisplayVendingMachine(); 
 
                 }
                 else if (userInput == 2)
                 {
-
-                    Console.Clear();
-
+                   Console.Clear();
 
                     while (true)
                     {
@@ -65,15 +62,14 @@ namespace Capstone.Classes
                         }
                         else if (userInput2 == 2)
                         {
-                            
                             Console.WriteLine("Please enter the product slot number.");
                             slot = Console.ReadLine();
-
-                           
+   
                             try
                             {
                                 vendingMachine.Purchase(slot);
-                                
+
+                                selectionMemory.Add(slot);
                             }
                             catch (VendingMachineExceptions ex)
                             {
@@ -87,10 +83,9 @@ namespace Capstone.Classes
                             Console.Clear();
                             vendingMachine.ReturnChange();
 
-                            ConsumeMessages(slot);
+                            ConsumeMessages(selectionMemory);
 
                             break;
-
                         }
                     }
                 }
@@ -102,25 +97,29 @@ namespace Capstone.Classes
             }
         }
 
-        private static void ConsumeMessages(string slot)
+        private static void ConsumeMessages(List<string> selectionMemory)
         {
-            if (slot.StartsWith("A"))
-            {
-                Console.WriteLine("Crunch Crunch, Yum!");
-            }
-            else if (slot.StartsWith("B"))
-            {
-                Console.WriteLine("Munch Munch, Yum!");
-            }
-            else if (slot.StartsWith("C"))
-            {
-                Console.WriteLine("Glug Glug, Yum!");
-            }
-            else if (slot.StartsWith("D"))
-            {
-                Console.WriteLine("Chew Chew, Yum!");
-            }
+            foreach (string item in selectionMemory)
+
+                if (item.StartsWith("A"))
+                {
+                    Console.WriteLine("Crunch Crunch, Yum!");
+                }
+                else if (item.StartsWith("B"))
+                {
+                    Console.WriteLine("Munch Munch, Yum!");
+                }
+                else if (item.StartsWith("C"))
+                {
+                    Console.WriteLine("Glug Glug, Yum!");
+                }
+                else if (item.StartsWith("D"))
+                {
+                    Console.WriteLine("Chew Chew, Yum!");
+                }
         }
+
+       
 
         private void UserInputMoney()
         {

@@ -15,7 +15,7 @@ namespace Capstone.Classes
         public Dictionary<string, List<Product>> Inventory { get; }
         public Dictionary<string, int> salesReport = new Dictionary<string, int>();
 
-        private decimal totalSales = 0;       
+        private decimal totalSales = 0;
 
         public VendingMachine(Dictionary<string, List<Product>> inventory)
         {
@@ -23,7 +23,7 @@ namespace Capstone.Classes
             foreach (var kvp in Inventory)
             {
                 salesReport.Add(kvp.Value[0].Name, 0);
-               
+
             }
 
         }
@@ -47,7 +47,7 @@ namespace Capstone.Classes
 
         }
 
-        public Product Purchase(string slot) 
+        public Product Purchase(string slot)
         {
             Product item = null;
 
@@ -69,17 +69,18 @@ namespace Capstone.Classes
                         log.RecordPurchase(slot, item.Name, Balance + item.Price, Balance);
                         totalSales += item.Price;
 
+                        
 
                         if (salesReport.ContainsKey(item.Name))
                         {
                             salesReport[item.Name] = salesReport[item.Name] + 1;
-                    }
-                    else
-                    {
-                        salesReport.Add(item.Name, 1);
-                    }
+                        }
+                        else
+                        {
+                            salesReport.Add(item.Name, 1);
+                        }
 
-                    log.RecordCompleteTransaction(totalSales, salesReport);
+                        log.RecordCompleteTransaction(totalSales, salesReport);
                     }
                     else
                     {
@@ -89,7 +90,7 @@ namespace Capstone.Classes
                 else
                 {
                     throw new VendingMachineExceptions("Out of stock!");
-                }   
+                }
             }
             else
             {
