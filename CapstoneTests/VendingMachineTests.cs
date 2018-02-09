@@ -57,5 +57,21 @@ namespace CapstoneTests
             Assert.AreEqual(0, vm.Balance);
             Assert.AreEqual(40, result.Quarters);
         }
+
+        [TestMethod]
+        public void PurchaseTest()
+        {
+            //Arrange
+            VendingMachineFileReader reader = new VendingMachineFileReader("vendingmachine.csv");
+            var inventory = reader.GetInventory();
+            VendingMachine vm = new VendingMachine(inventory);
+
+            //Act
+            vm.FeedMoney(10);
+            vm.Purchase("A1");
+
+            //Assert
+            Assert.AreEqual(6.95M, vm.Balance);
+        }
     }
 }

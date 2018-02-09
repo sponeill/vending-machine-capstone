@@ -22,38 +22,46 @@ namespace Capstone.Classes
             
 
             Console.WriteLine("WELCOME TO VENDO MATIC");
+            string slot = "";
 
             while (true)
             {
+                Console.WriteLine('\n');
                 Console.WriteLine("Main Menu");
                 Console.WriteLine("Please Select One of the Following Options.");
                 Console.WriteLine("1) Display Vending Machine Items");
-                Console.WriteLine("2) Purchase");
+                Console.WriteLine("2) Purchasing Menu");
                 Console.WriteLine("Press 0 at any point of the transaction when you want to quit!");
                 Console.WriteLine("Enter your option: ");
 
                 int userInput = Convert.ToInt32(Console.ReadLine());
+               
 
                 if (userInput == 1)
                 {
+                    Console.Clear();
                     DisplayVendingMachine();
+                   
 
                 }
                 else if (userInput == 2)
                 {
+                    Console.Clear();
                     PurchasingMenuOptions();
 
                     int userInput2 = Convert.ToInt32(Console.ReadLine());
 
                     if (userInput2 == 1)
                     {
+                        Console.Clear();
                         UserInputMoney();
 
                     }
                     else if (userInput2 == 2)
                     {
+                        Console.Clear();
                         Console.WriteLine("Please enter the product slot number.");
-                        string slot = Console.ReadLine();
+                        slot = Console.ReadLine();
 
                         while(!vendingMachine.Slots.Contains(slot))
                         {
@@ -67,17 +75,16 @@ namespace Capstone.Classes
                         }
                         else
                         {
+                            Console.Clear();
                             vendingMachine.Purchase(slot);
-
                         }
                     }
                     else if(userInput2 == 3)
                     {
-                        vendingMachine.ReturnChange()
-                        {
-                            
-                        }
-                        Console.WriteLine("");
+                        Console.Clear();
+                        vendingMachine.ReturnChange();
+
+                        ConsumeMessages(slot);
 
                     }
                 }
@@ -89,9 +96,29 @@ namespace Capstone.Classes
             }
         }
 
+        private static void ConsumeMessages(string slot)
+        {
+            if (slot.StartsWith("A"))
+            {
+                Console.WriteLine("Crunch Crunch, Yum!");
+            }
+            else if (slot.StartsWith("B"))
+            {
+                Console.WriteLine("Munch Munch, Yum!");
+            }
+            else if (slot.StartsWith("C"))
+            {
+                Console.WriteLine("Glug Glug, Yum!");
+            }
+            else if (slot.StartsWith("D"))
+            {
+                Console.WriteLine("Chew Chew, Yum!");
+            }
+        }
+
         private void UserInputMoney()
         {
-            Console.WriteLine("Please feed in your choice amount.");
+            Console.WriteLine("Please feed in your dollar amount.");
 
             int dollars = Convert.ToInt32(Console.ReadLine());
 
@@ -111,7 +138,7 @@ namespace Capstone.Classes
         {
             foreach (string slot in vendingMachine.Slots)
             {
-                Console.WriteLine(slot);
+                Console.WriteLine($"{slot} - <itemName> ");
             }
         }
     }

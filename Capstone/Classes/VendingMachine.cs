@@ -9,6 +9,8 @@ namespace Capstone.Classes
 {
     public class VendingMachine
     {
+        public TransactionLogger log = new TransactionLogger("Log.txt", "SalesReport.txt");
+
         public decimal Balance { get; private set; }
         private Dictionary<string, List<Product>> Inventory { get; }
 
@@ -32,6 +34,9 @@ namespace Capstone.Classes
         public void FeedMoney(int dollars)
         {
             Balance += dollars;
+
+            log.RecordDeposit(dollars, Balance);
+            
         }
 
         public Product Purchase(string slot)
@@ -49,6 +54,8 @@ namespace Capstone.Classes
                     // Deducts the price of the item from Balance
 
                     Balance -= item.Price;
+
+                    log.RecordPurchase(slot, item.Name, Balance + item.Price, Balance);
                 }
             }
            
@@ -70,7 +77,11 @@ namespace Capstone.Classes
         {
             Change output = new Change(Balance);
             Balance = 0;
+            Console.WriteLine(output.ChangeAmount);
+
             return output;
+
+            
          
         }
     }

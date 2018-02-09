@@ -16,6 +16,8 @@ namespace Capstone.Classes
 
         public decimal Total { get; }
 
+        public string ChangeAmount { get; private set; }
+
         public Change(decimal total)
         {
             this.Total = total;
@@ -30,6 +32,8 @@ namespace Capstone.Classes
 
             Nickels = (int)(changeTotal / 0.05M);
             changeTotal -= Nickels * 0.05M;
+
+            ChangeAmount = ($"Returning {Quarters} Quarters, {Dimes} Dimes, and {Nickels} Nickels");
         }
 
                
