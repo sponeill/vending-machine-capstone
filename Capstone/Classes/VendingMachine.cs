@@ -22,8 +22,8 @@ namespace Capstone.Classes
         {
             get
             {
-                Inventory.Keys.ToArray();
-                return Slots;
+                return Inventory.Keys.ToArray();
+                //return Slots;
             }
         }
 
@@ -37,7 +37,7 @@ namespace Capstone.Classes
         public Product Purchase(string slot)
         {
             List<Product> items = Inventory[slot];
-            Product item = null;
+            Product item = items[0];
 
             // Gets the item from the dictionary
             if (items.Count > 0)
