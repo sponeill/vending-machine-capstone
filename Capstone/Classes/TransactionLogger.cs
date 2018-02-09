@@ -51,13 +51,18 @@ namespace Capstone.Classes
             }
         }
 
-        public void RecordCompleteTransaction(decimal remainingBalance)
+        public void RecordCompleteTransaction(decimal remainingBalance, Dictionary<string, int> sales)
         {
             try
             {
-                using (StreamWriter sw = new StreamWriter(SalesReport, true))
+                using (StreamWriter sw = new StreamWriter(SalesReport, false))
                 {
-                    sw.WriteLine($" ");
+                    foreach(var kvp in sales)
+                    {
+                        sw.WriteLine($"{kvp.Key} | {kvp.Value}");
+                    }
+
+                    sw.WriteLine($"Total Sales ${remainingBalance}");
                 }
             }
             catch (IOException ex)
