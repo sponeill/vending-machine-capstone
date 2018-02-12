@@ -16,9 +16,6 @@ namespace CapstoneTests
 
             VendingMachine vm = new VendingMachine(inventory);
 
-            //Act
-            //int result = 
-
             //Assert
             Assert.AreEqual(16, inventory.Count);
         }

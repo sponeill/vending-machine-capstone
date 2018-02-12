@@ -26,30 +26,24 @@ namespace Capstone.Classes
 
             while (true)
             {
-                Console.WriteLine('\n');
-                Console.WriteLine("Main Menu");
-                Console.WriteLine("Please Select One of the Following Options.");
-                Console.WriteLine("1) Display Vending Machine Items");
-                Console.WriteLine("2) Purchasing Menu");
-                Console.WriteLine("Press 0 at any point of the transaction when you want to quit!");
-                Console.WriteLine("Enter your option: ");
+                MainMenuText();
 
                 int userInput = Convert.ToInt32(Console.ReadLine());
-               
+
 
                 if (userInput == 1)
                 {
                     Console.Clear();
-                    DisplayVendingMachine(); 
+                    DisplayVendingMachine();
 
                 }
                 else if (userInput == 2)
                 {
-                   Console.Clear();
+                    Console.Clear();
 
                     while (true)
                     {
-                        
+
                         PurchasingMenuOptions();
 
                         int userInput2 = Convert.ToInt32(Console.ReadLine());
@@ -62,9 +56,10 @@ namespace Capstone.Classes
                         }
                         else if (userInput2 == 2)
                         {
+                            Console.Clear();
                             Console.WriteLine("Please enter the product slot number.");
                             slot = Console.ReadLine();
-   
+
                             try
                             {
                                 vendingMachine.Purchase(slot);
@@ -89,12 +84,23 @@ namespace Capstone.Classes
                         }
                     }
                 }
-                else if(userInput == 0)
+                else if (userInput == 0)
                 {
                     break;
                 }
 
             }
+        }
+
+        private static void MainMenuText()
+        {
+            Console.WriteLine('\n');
+            Console.WriteLine("Main Menu");
+            Console.WriteLine("Please Select One of the Following Options.");
+            Console.WriteLine("1) Display Vending Machine Items");
+            Console.WriteLine("2) Purchasing Menu");
+            Console.WriteLine("Press 0 at any point of the transaction when you want to quit!");
+            Console.WriteLine("Enter your option: ");
         }
 
         private static void ConsumeMessages(List<string> selectionMemory)
@@ -143,7 +149,7 @@ namespace Capstone.Classes
         {
             foreach (var kvp in vendingMachine.Inventory)
             {
-                Console.WriteLine(kvp.Key + " " + " - " + (kvp.Value.Count() != 0 ? kvp.Value[0].Name : "Sold-Out"));
+                Console.WriteLine(kvp.Key + " " + " - " + (kvp.Value.Count() != 0 ? kvp.Value[0].Name : "Sold-Out") + " - " + "$" +  kvp.Value[0].Price);
             }
         }
     }

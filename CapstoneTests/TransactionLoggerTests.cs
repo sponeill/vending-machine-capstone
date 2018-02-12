@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Capstone.Classes;
+using System.IO;
 
 namespace CapstoneTests
 {
@@ -20,7 +21,7 @@ namespace CapstoneTests
 
 
             //Assert
-            
+            Assert.IsTrue(File.Exists(Filepath));
         }
     }
 }
