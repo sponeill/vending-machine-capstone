@@ -9,8 +9,12 @@ namespace Capstone.Classes
 {
     public class VendingMachineFileReader
     {
+        private const int Col_SlotId = 0;
+        private const int Col_Name = 1;
+        private const int Col_Price = 2;
+        private const int Default_Quantity = 5;
 
-        public string FilePath = "vendingmachine.csv";
+        private string FilePath { get; set; }
 
         public VendingMachineFileReader(string filePath)
         {
@@ -21,8 +25,6 @@ namespace Capstone.Classes
         {
             Dictionary<string, List<Product>> inventory = new Dictionary<string, List<Product>>();
 
-
-
             try
             {
                 using (StreamReader sr = new StreamReader(FilePath))
@@ -31,39 +33,32 @@ namespace Capstone.Classes
                     {
                         string line = sr.ReadLine();
                         List<Product> products = GetProducts(line);
-                        string location = line.Split('|')[0];
+                        string location = line.Split('|')[Col_SlotId];
                         inventory.Add(location, products);
 
                     }
-                }
-               
+                }               
             }
             catch(IOException ex)
             {
                 Console.WriteLine("Something went wrong while opening the file, please try again!");
                 Console.WriteLine(ex.Message);
-
             }
+
             return inventory;
         }
-
-        
-
-        List<Product> products = new List<Product>();
-
+       
         private static List<Product> GetProducts(string line)
-        {
-            
-
+        {            
             List<Product> products = new List<Product>();
 
             string[] fields = line.Split('|');
 
-            string location = fields[0];
-            string name = fields[1];
-            decimal price = decimal.Parse(fields[2]);
+            string location = fields[Col_SlotId];
+            string name = fields[Col_Name];
+            decimal price = decimal.Parse(fields[Col_Price]);
 
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < Default_Quantity; i++)
             {
                 Product productItem;
 
@@ -71,7 +66,6 @@ namespace Capstone.Classes
                 {
                     productItem = new ChipItem(name, price, location);
                     products.Add(productItem);
-
                 }
                 else if (location.StartsWith("B"))
                 {
@@ -87,13 +81,8 @@ namespace Capstone.Classes
                 {
                     productItem = new GumItem(name, price, location);
                     products.Add(productItem);
-                }
-
-                
-
+                }                
             }
-
-
 
             return products;
         }

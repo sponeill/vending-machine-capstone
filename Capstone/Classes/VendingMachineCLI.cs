@@ -21,80 +21,77 @@ namespace Capstone.Classes
         {
             
             Console.WriteLine("WELCOME TO VENDO MATIC");
-            string slot = "";
-            List<string> selectionMemory = new List<string>();
-
+            
             while (true)
             {
                 MainMenuText();
 
-                int userInput = Convert.ToInt32(Console.ReadLine());
+                string userInput = Console.ReadLine();
 
-
-                if (userInput == 1)
+                if (userInput == "1")
                 {
-                    Console.Clear();
                     DisplayVendingMachine();
-
                 }
-                else if (userInput == 2)
+                else if (userInput == "2")
                 {
-                    Console.Clear();
-
-                    while (true)
-                    {
-
-                        PurchasingMenuOptions();
-
-                        int userInput2 = Convert.ToInt32(Console.ReadLine());
-
-                        if (userInput2 == 1)
-                        {
-                            Console.Clear();
-                            UserInputMoney();
-
-                        }
-                        else if (userInput2 == 2)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Please enter the product slot number.");
-                            slot = Console.ReadLine();
-
-                            try
-                            {
-                                vendingMachine.Purchase(slot);
-
-                                selectionMemory.Add(slot);
-                            }
-                            catch (VendingMachineExceptions ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-
-
-                        }
-                        else if (userInput2 == 3)
-                        {
-                            Console.Clear();
-                            vendingMachine.ReturnChange();
-
-                            ConsumeMessages(selectionMemory);
-
-                            break;
-                        }
-                    }
+                    DispayPurchaseMenu();                    
                 }
-                else if (userInput == 0)
+                else if (userInput == "0")
                 {
                     break;
                 }
+            }
+        }
 
+        private void DispayPurchaseMenu()
+        {            
+            List<Product> purchasedProducts = new List<Product>();
+
+            Console.Clear();
+
+            while (true)
+            {
+                PurchasingMenuOptions();
+
+                string userInput2 = Console.ReadLine();
+
+                if (userInput2 == "1")
+                {                    
+                    UserInputMoney();
+                }
+                else if (userInput2 == "2")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Please enter the product slot number.");
+                    string slot = Console.ReadLine();
+
+                    try
+                    {
+                        Product item = vendingMachine.Purchase(slot);
+                        purchasedProducts.Add(item);
+                    }
+                    catch (VendingMachineExceptions ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                else if (userInput2 == "3")
+                {
+                    Console.Clear();
+                    Change change = vendingMachine.ReturnChange();
+                    Console.WriteLine(change.ChangeAmount);
+
+                    ConsumeMessages(purchasedProducts);
+                    purchasedProducts.Clear();
+
+                    break;
+                }
             }
         }
 
         private static void MainMenuText()
         {
-            Console.WriteLine('\n');
+            Console.WriteLine();
             Console.WriteLine("Main Menu");
             Console.WriteLine("Please Select One of the Following Options.");
             Console.WriteLine("1) Display Vending Machine Items");
@@ -103,37 +100,27 @@ namespace Capstone.Classes
             Console.WriteLine("Enter your option: ");
         }
 
-        private static void ConsumeMessages(List<string> selectionMemory)
+        private static void ConsumeMessages(List<Product> purchasedProducts)
         {
-            foreach (string item in selectionMemory)
-
-                if (item.StartsWith("A"))
-                {
-                    Console.WriteLine("Crunch Crunch, Yum!");
-                }
-                else if (item.StartsWith("B"))
-                {
-                    Console.WriteLine("Munch Munch, Yum!");
-                }
-                else if (item.StartsWith("C"))
-                {
-                    Console.WriteLine("Glug Glug, Yum!");
-                }
-                else if (item.StartsWith("D"))
-                {
-                    Console.WriteLine("Chew Chew, Yum!");
-                }
-        }
-
-       
+            foreach (Product item in purchasedProducts)
+            {
+                item.Consume();
+            }        
+        }       
 
         private void UserInputMoney()
         {
+            Console.Clear();
             Console.WriteLine("Please feed in your dollar amount.");
 
-            int dollars = Convert.ToInt32(Console.ReadLine());
-
-            vendingMachine.FeedMoney(dollars);
+            if (int.TryParse(Console.ReadLine(), out int dollars))
+            {
+                vendingMachine.FeedMoney(dollars);
+            }
+            else
+            {
+                Console.WriteLine("That is not a valid dollar amount.");
+            }            
         }
 
         private void PurchasingMenuOptions()
@@ -147,9 +134,16 @@ namespace Capstone.Classes
 
         private void DisplayVendingMachine()
         {
-            foreach (var kvp in vendingMachine.Inventory)
+            Console.Clear();
+
+            foreach (var slot in vendingMachine.Slots)
             {
-                Console.WriteLine(kvp.Key + " " + " - " + (kvp.Value.Count() != 0 ? kvp.Value[0].Name : "Sold-Out") + " - " + "$" +  kvp.Value[0].Price);
+                Product product = vendingMachine.GetItemAtSlot(slot);
+
+                string message = slot + " - ";
+                message += (product != null) ? product.Name + " - " + product.Price.ToString("C") : "Sold-Out";
+
+                Console.WriteLine(message);
             }
         }
     }
